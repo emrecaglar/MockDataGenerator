@@ -10,6 +10,8 @@
     <PackageProjectUrl>https://github.com/emrecaglar/MockDataGenerator</PackageProjectUrl>
     <PackageTags>mocking, unit-test, test, mock-data</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>v1.0.1 - change nuget packages</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
