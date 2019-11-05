@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MockDataGenerator
+namespace Mocking.DataGenerator
 {
     public abstract class RandomizerBase
     {

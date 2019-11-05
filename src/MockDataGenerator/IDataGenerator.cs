@@ -1,4 +1,4 @@
-﻿namespace MockDataGenerator
+﻿namespace Mocking.DataGenerator
 {
     public interface IDataGenerator<out TProperty>
     {
