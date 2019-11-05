@@ -8,7 +8,7 @@
     <Product>Mock Data Generator</Product>
     <Description>Generate mock data for POCO</Description>
     <PackageProjectUrl>https://github.com/emrecaglar/MockDataGenerator</PackageProjectUrl>
-    <PackageTags>mocking, unit test, test, mock data</PackageTags>
+    <PackageTags>mocking, unit-test, test, mock-data</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
