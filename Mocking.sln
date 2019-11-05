@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mocking.DataGenerator", "src\MockDataGenerator\Mocking.DataGenerator.csproj", "{C5FC562B-3509-4E0B-AB85-DE343CF96E74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mocking.DataGenerator", "src\Mocking.DataGenerator\Mocking.DataGenerator.csproj", "{C5FC562B-3509-4E0B-AB85-DE343CF96E74}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocking.DataGenerator.Tests", "test\Mocking.DataGenerator.Tests\Mocking.DataGenerator.Tests.csproj", "{E3957972-BF2D-41A7-AD38-5307A6E1273C}"
 EndProject
