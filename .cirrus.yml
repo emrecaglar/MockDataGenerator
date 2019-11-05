@@ -1,0 +1,8 @@
+container:
+    image: microsoft/dotnet
+
+build:
+    build_script: dotnet build
+
+test:
+    test_script: dotnet test
