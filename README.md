@@ -27,7 +27,7 @@ namespace XUnitTestProject1
             data.Register(x => x.SecureType, new FromEnum<MyEnum>());
 
             data.Register(x => x.Provider, new ComplexObject<AnotherType>(
-                                                        new MockData<AnotherType>()
+                                                        new MockDataGenerator<AnotherType>()
                                                             .Register(x => x.Name, new RandomString(5))
                                                             .Register(x => x.Id, new GuidGenerator())));
 
@@ -57,7 +57,7 @@ namespace XUnitTestProject1
 
         public DateTime InsertedDate { get; set; }
         
-        public PaymentProvider Provider { get; set; }
+        public AnotherType Provider { get; set; }
 
         public string Explanation { get; set; }
 
