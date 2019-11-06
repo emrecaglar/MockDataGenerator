@@ -13,7 +13,7 @@ namespace XUnitTestProject1
         [Fact]
         public void Test1()
         {
-            var data = new MockData<MyType>();
+            var data = new MockDataGenerator<MyType>();
 
             data.Register(x => x.Id, new GuidGenerator());
             data.Register(x => x.Name, new SelectionAtStringArray());
