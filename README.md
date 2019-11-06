@@ -16,7 +16,7 @@ namespace XUnitTestProject1
             var data = new MockDataGenerator<MyType>();
 
             data.Register(x => x.Id, new GuidGenerator());
-            data.Register(x => x.Name, new SelectionAtStringArray());
+            data.Register(x => x.Name, new FromArray<string>(new[] { "TestString1", "TestString2" }));
             data.Register(x => x.Active, new RandomBoolean());
             data.Register(x => x.Level, new IntegerGenerator(0, 20));
             data.Register(x => x.IBAN, new IBANGenerator());
@@ -24,6 +24,7 @@ namespace XUnitTestProject1
             data.Register(x => x.InsertedDate, new DateTimeGenerator());
             data.Register(x => x.Explanation, new LoremIpsumGenerator(5, 3));
             data.Register(x => x.AllowedIp, new IPV4Generator());
+            data.Register(x => x.SecureType, new FromEnum<MyEnum>());
 
             data.Register(x => x.Provider, new ComplexObject<AnotherType>(
                                                         new MockData<AnotherType>()
@@ -32,6 +33,12 @@ namespace XUnitTestProject1
 
             var mockData = data.Generate(count: 10);
         }
+    }
+    
+    public enum MyEnum
+    {
+        Foo,
+        Bar
     }
 
     public class MyType
@@ -55,6 +62,8 @@ namespace XUnitTestProject1
         public string Explanation { get; set; }
 
         public string AllowedIp { get; set; }
+        
+        public MyEnum SecureType { get; set; }
     }
 
     public class AnotherType
