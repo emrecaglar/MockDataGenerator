@@ -3,6 +3,10 @@ Generate mock data for POCO
 
 [![NuGet](https://img.shields.io/nuget/v/MockDataGenerator.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/MockDataGenerator/)
 
+![AppVeyor](https://img.shields.io/appveyor/ci/EmreALAR/mockdatagenerator)
+
+![AppVeyor tests](https://img.shields.io/appveyor/tests/EmreALAR/mockdatagenerator)
+
 ```csharp
 
 namespace XUnitTestProject1
