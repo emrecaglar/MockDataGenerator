@@ -25,6 +25,7 @@ namespace XUnitTestProject1
             data.Register(x => x.Explanation, new LoremIpsumGenerator(5, 3));
             data.Register(x => x.AllowedIp, new IPV4Generator());
             data.Register(x => x.SecureType, new FromEnum<MyEnum>());
+            data.Register(x => x.SomeField, "Const value");
 
             data.Register(x => x.Provider, new ComplexObject<AnotherType>(
                                                         new MockDataGenerator<AnotherType>()
@@ -64,6 +65,8 @@ namespace XUnitTestProject1
         public string AllowedIp { get; set; }
         
         public MyEnum SecureType { get; set; }
+
+        public string SomeField { get; set; }
     }
 
     public class AnotherType
