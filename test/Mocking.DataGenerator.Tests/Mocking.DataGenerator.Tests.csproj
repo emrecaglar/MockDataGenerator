@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MockDataGenerator\Mocking.DataGenerator.csproj" />
+    <ProjectReference Include="..\..\src\Mocking.DataGenerator\Mocking.DataGenerator.csproj" />
   </ItemGroup>
 
 </Project>
