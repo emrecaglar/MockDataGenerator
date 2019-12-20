@@ -6,14 +6,18 @@ namespace Mocking.DataGenerator.Generators
     {
         private readonly MockDataGenerator<T> _data;
 
-        public ComplexList(MockDataGenerator<T> data)
+        private readonly int _count;
+
+        public ComplexList(MockDataGenerator<T> data, int count = 10)
         {
             _data = data;
+
+            _count = count;
         }
 
         public List<T> Get()
         {
-            return _data.Generate();
+            return _data.Generate(_count);
         }
     }
 }

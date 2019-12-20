@@ -12,8 +12,8 @@ namespace Mocking.DataGenerator.Tests
         public void AutoIncrement_ShoulBeIncrement()
         {
             var data = new MockDataGenerator<MyType>()
-                            .Register(x => x.Value, new AutoIncrementDataGenerator(start:10, increment: 10))
-                            .Generate(count:5);
+                            .Register(x => x.Value, new AutoIncrementDataGenerator(start: 10, increment: 10))
+                            .Generate(count: 5);
 
 
             Assert.Equal(10, data[0].Value);

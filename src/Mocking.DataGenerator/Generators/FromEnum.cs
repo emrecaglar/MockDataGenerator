@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Mocking.DataGenerator.Generators
 {
-    public class FromEnum<TEnum> : RandomizerBase, IDataGenerator<TEnum> where TEnum : struct
+    public class FromEnum<TEnum> : RandomizerBase, IDataGenerator<TEnum> where TEnum : Enum
     {
         public TEnum Get()
         {
