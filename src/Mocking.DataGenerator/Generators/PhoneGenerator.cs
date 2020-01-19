@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Mocking.DataGenerator.Generators
@@ -12,24 +13,27 @@ namespace Mocking.DataGenerator.Generators
         {
             _format = format;
         }
-             
+
         public string Get()
         {
-            int countryCode = Randomizer.Next(1, 9);
-            int digits = Randomizer.Next(349586710, 876586959);
-            int lastDigit = Randomizer.Next(0, 9);
+            string fmt = _format ?? "+#(###)###-##-##";
 
-            long phone;
-            if (_format.Contains('+'))
+            int digitCount = fmt.Count(x => x == '#');
+
+            if (digitCount > 19)
             {
-                phone = long.Parse($"{countryCode}{digits}{lastDigit}");
+                throw new Exception("invalid format: max 19 digit use");
             }
-            else
+
+            var builder = new StringBuilder();
+            for (int i = 0; i < digitCount; i++)
             {
-                phone = long.Parse($"{digits}{lastDigit}");
+                builder.Append(Randomizer.Next(1, 9));
             }
-            
-            return phone.ToString(_format);
+
+            var phoneNumber = long.Parse(builder.ToString());
+
+            return phoneNumber.ToString(fmt);
         }
     }
 }

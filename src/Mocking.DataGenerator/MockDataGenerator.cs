@@ -145,6 +145,46 @@ namespace Mocking.DataGenerator
             return new IBANGenerator();
         }
 
+        public static IDataGenerator<string> Name(this DataGenerator<string> property)
+        {
+            return new NameGenerator();
+        }
+
+        public static IDataGenerator<string> Surname(this DataGenerator<string> property)
+        {
+            return new SurnameGenerator();
+        }
+
+        public static IDataGenerator<string> Phone(this DataGenerator<string> property, string format = "+#(###)###-##-##")
+        {
+            return new PhoneGenerator(format);
+        }
+
+        public static IDataGenerator<string> Url(this DataGenerator<string> property, bool includePath = true)
+        {
+            return new URLGenerator(includePath);
+        }
+
+        public static IDataGenerator<string> Email(this DataGenerator<string> property)
+        {
+            return new EmailGenerator();
+        }
+
+        public static IDataGenerator<string> CurrencySymbol(this DataGenerator<string> property)
+        {
+            return new CurrencySymbolGenerator();
+        }
+
+        public static IDataGenerator<string> CurrencyCode(this DataGenerator<string> property)
+        {
+            return new CurrencyCodeGenerator();
+        }
+
+        public static IDataGenerator<string> CreditCard(this DataGenerator<string> property)
+        {
+            return new CreditCardGenerator();
+        }
+
         public static IDataGenerator<string> Region(this DataGenerator<string> property)
         {
             return new RegionGenerator();
@@ -198,6 +238,11 @@ namespace Mocking.DataGenerator
         public static IDataGenerator<int> Random(this DataGenerator<int> property, int min = int.MinValue, int max = int.MaxValue)
         {
             return new IntegerGenerator(min, max);
+        }
+
+        public static IDataGenerator<decimal> Money(this DataGenerator<decimal> property, int digit = 1000)
+        {
+            return new MoneyGenerator(digit);
         }
 
         public static IDataGenerator<int> AutoIncrement(this DataGenerator<int> property, int start = 1, int increment = 1)
