@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
+using Mocking.DataGenerator;
 
 namespace Mocking.DataGenerator.Tests
 {
@@ -12,7 +13,7 @@ namespace Mocking.DataGenerator.Tests
         public void AutoIncrement_ShoulBeIncrement()
         {
             var data = new MockDataGenerator<MyType>()
-                            .Register(x => x.Value, new AutoIncrementDataGenerator(start: 10, increment: 10))
+                            .Register(x => x.Value, x => x.AutoIncrement(10, 10))
                             .Generate(count: 5);
 
 

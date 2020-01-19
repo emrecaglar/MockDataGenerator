@@ -18,12 +18,12 @@ namespace Mocking.DataGenerator.Generators
 
         public RandomString(
             int upperLetter = 5,
-            int loweLetter = 5,
+            int lowerLetter = 5,
             int digit = 5,
             int specialChars = 5)
         {
             _upperLetter = upperLetter;
-            _lowerLetter = loweLetter;
+            _lowerLetter = lowerLetter;
             _digit = digit;
             _specialChars = specialChars;
         }

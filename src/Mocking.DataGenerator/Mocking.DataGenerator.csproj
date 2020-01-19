@@ -10,10 +10,8 @@
     <PackageProjectUrl>https://github.com/emrecaglar/MockDataGenerator</PackageProjectUrl>
     <PackageTags>mocking, unit-test, test, mock-data</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.4</Version>
-    <PackageReleaseNotes>v1.0.1 - change nuget packages
-v.1.0.2 - add FromArray, FromEnum. Remove SelectionAtStringArray
-v1.1.4 - add new mock data generators</PackageReleaseNotes>
+    <Version>1.1.6</Version>
+    <PackageReleaseNotes>Bug fixes</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>

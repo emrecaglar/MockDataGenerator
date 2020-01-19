@@ -10,14 +10,6 @@ namespace Mocking.DataGenerator
     class ValueResolver
     {
         public Func<object> Resolver { get; set; }
-
-        public ResolverType Type { get; set; }
-    }
-
-    enum ResolverType
-    {
-        FromProperty,
-        FromFactory
     }
 
     public class MockDataGenerator<TModel>
@@ -28,7 +20,7 @@ namespace Mocking.DataGenerator
         {
             if (!_expressions.ContainsKey(expression))
             {
-                _expressions.Add(expression, new ValueResolver { Resolver = () => valueResolver(), Type = ResolverType.FromProperty });
+                _expressions.Add(expression, new ValueResolver { Resolver = () => valueResolver() });
             }
 
             return this;
@@ -38,7 +30,7 @@ namespace Mocking.DataGenerator
         {
             if (!_expressions.ContainsKey(expression))
             {
-                _expressions.Add(expression, new ValueResolver { Resolver = () => value, Type = ResolverType.FromProperty });
+                _expressions.Add(expression, new ValueResolver { Resolver = () => value });
             }
 
             return this;
@@ -48,7 +40,7 @@ namespace Mocking.DataGenerator
         {
             if (!_expressions.ContainsKey(expression))
             {
-                _expressions.Add(expression, new ValueResolver { Resolver = () => randomData.Get(), Type = ResolverType.FromProperty });
+                _expressions.Add(expression, new ValueResolver { Resolver = () => randomData.Get() });
             }
 
             return this;
@@ -58,7 +50,11 @@ namespace Mocking.DataGenerator
         {
             if (!_expressions.ContainsKey(expression))
             {
-                _expressions.Add(expression, new ValueResolver { Resolver = () => factory, Type = ResolverType.FromFactory });
+                var dataGenerator = (DataGenerator<TProperty>)Activator.CreateInstance(typeof(DataGenerator<>).MakeGenericType(typeof(TProperty)));
+
+                var randomData = factory.Compile()(dataGenerator);
+
+                _expressions.Add(expression, new ValueResolver { Resolver = () => randomData.Get() });
             }
 
             return this;
@@ -78,7 +74,7 @@ namespace Mocking.DataGenerator
 
                     var pi = (PropertyInfo)memberExpression.Member;
 
-                    pi.SetValue(model, GetValue(model, expression), new object[] { });
+                    pi.SetValue(model, GetValue(expression), new object[] { });
                 }
 
                 data.Add(model);
@@ -87,43 +83,13 @@ namespace Mocking.DataGenerator
             return data;
         }
 
-        private object GetValue(object model, KeyValuePair<LambdaExpression, ValueResolver> dic)
+        private object GetValue(KeyValuePair<LambdaExpression, ValueResolver> dic)
         {
-            switch (dic.Value.Type)
-            {
-                case ResolverType.FromProperty:
-                    return FromProperty(model, dic.Key, dic.Value.Resolver);
-                case ResolverType.FromFactory:
-                    return FromFactory(model, dic.Key, dic.Value.Resolver);
-            }
-
-            throw new NotSupportedException($"{nameof(dic.Value.Resolver)}: {dic.Value.Resolver.ToString()}");
-        }
-
-        private object FromProperty(object model, LambdaExpression exp, Func<object> resolver)
-        {
-            return resolver();
-        }
-
-        private object FromFactory(object model, LambdaExpression exp, Func<object> resolver)
-        {
-            MemberExpression memberExpression = (MemberExpression)exp.Body;
-
-            PropertyInfo propertyInfo = (PropertyInfo)memberExpression.Member;
-
-            var factory = (LambdaExpression)resolver();
-
-            var dataResolverFactory = Activator.CreateInstance(typeof(DataGenerator<>).MakeGenericType(propertyInfo.PropertyType));
-
-            var dataGenerator = factory.Compile().DynamicInvoke(dataResolverFactory);
-
-            var data = dataGenerator.GetType().GetMethod("Get", Type.EmptyTypes).Invoke(dataGenerator, new object[] { });
-
-            return data;
+            return dic.Value.Resolver();
         }
     }
 
-    public abstract class DataGenerator<TProperty>
+    public class DataGenerator<TProperty>
     {
 
     }
@@ -155,10 +121,17 @@ namespace Mocking.DataGenerator
             return new SurnameGenerator();
         }
 
-        public static IDataGenerator<string> Phone(this DataGenerator<string> property, string format = "+#(###)###-##-##")
+        #region Phone
+        public static IDataGenerator<string> Phone(this DataGenerator<string> property)
+        {
+            return new PhoneGenerator(format: "+#(###)###-##-##");
+        }
+
+        public static IDataGenerator<string> Phone(this DataGenerator<string> property, string format)
         {
             return new PhoneGenerator(format);
-        }
+        } 
+        #endregion
 
         public static IDataGenerator<string> Url(this DataGenerator<string> property, bool includePath = true)
         {
@@ -190,20 +163,54 @@ namespace Mocking.DataGenerator
             return new RegionGenerator();
         }
 
-        public static IDataGenerator<string> Random(this DataGenerator<string> property, int upperLetter = 5, int lowerLetter = 5, int digit = 5, int specialChars = 5)
+        #region Random String
+        public static IDataGenerator<string> Random(this DataGenerator<string> property)
+        {
+            return new RandomString(upperLetter: 5, lowerLetter: 5, digit: 5, specialChars: 5);
+        }
+
+        public static IDataGenerator<string> Random(this DataGenerator<string> property, int upperLetter)
+        {
+            return new RandomString(upperLetter, lowerLetter: 5, digit: 5, specialChars: 5);
+        }
+
+        public static IDataGenerator<string> Random(this DataGenerator<string> property, int upperLetter, int lowerLetter)
+        {
+            return new RandomString(upperLetter, lowerLetter, digit: 5, specialChars: 5);
+        }
+
+        public static IDataGenerator<string> Random(this DataGenerator<string> property, int upperLetter, int lowerLetter, int digit)
+        {
+            return new RandomString(upperLetter, lowerLetter, digit, specialChars: 5);
+        }
+
+        public static IDataGenerator<string> Random(this DataGenerator<string> property, int upperLetter, int lowerLetter, int digit, int specialChars)
         {
             return new RandomString(upperLetter, lowerLetter, digit, specialChars);
-        }
+        } 
+        #endregion
 
         public static IDataGenerator<string> MD5(this DataGenerator<string> property)
         {
             return new MD5Generator();
         }
 
-        public static IDataGenerator<string> LoremIpsum(this DataGenerator<string> property, int sentenceCount = 3, int paragraphCount = 1)
+        #region Lorem Ipsum
+        public static IDataGenerator<string> LoremIpsum(this DataGenerator<string> property)
+        {
+            return new LoremIpsumGenerator(sentenceCount: 3, paragraphCount: 1);
+        }
+
+        public static IDataGenerator<string> LoremIpsum(this DataGenerator<string> property, int sentenceCount = 3)
+        {
+            return new LoremIpsumGenerator(sentenceCount, paragraphCount: 1);
+        }
+
+        public static IDataGenerator<string> LoremIpsum(this DataGenerator<string> property, int sentenceCount, int paragraphCount)
         {
             return new LoremIpsumGenerator(sentenceCount, paragraphCount);
         }
+        #endregion
 
         public static IDataGenerator<string> Language(this DataGenerator<string> property)
         {
@@ -235,20 +242,51 @@ namespace Mocking.DataGenerator
             return new RandomBoolean();
         }
 
-        public static IDataGenerator<int> Random(this DataGenerator<int> property, int min = int.MinValue, int max = int.MaxValue)
+        #region Random Integer
+        public static IDataGenerator<int> Random(this DataGenerator<int> property)
+        {
+            return new IntegerGenerator(min: int.MinValue, max: int.MaxValue);
+        }
+
+        public static IDataGenerator<int> Random(this DataGenerator<int> property, int min)
+        {
+            return new IntegerGenerator(min, int.MaxValue);
+        }
+
+        public static IDataGenerator<int> Random(this DataGenerator<int> property, int min, int max)
         {
             return new IntegerGenerator(min, max);
         }
+        #endregion
 
-        public static IDataGenerator<decimal> Money(this DataGenerator<decimal> property, int digit = 1000)
+        #region Money
+        public static IDataGenerator<decimal> Money(this DataGenerator<decimal> property, int digit)
         {
             return new MoneyGenerator(digit);
         }
 
-        public static IDataGenerator<int> AutoIncrement(this DataGenerator<int> property, int start = 1, int increment = 1)
+        public static IDataGenerator<decimal> Money(this DataGenerator<decimal> property)
+        {
+            return new MoneyGenerator(multiplier: 1000);
+        }
+        #endregion
+
+        #region AutoIncrement
+        public static IDataGenerator<int> AutoIncrement(this DataGenerator<int> property)
+        {
+            return new AutoIncrementDataGenerator(int.MinValue, int.MaxValue);
+        }
+
+        public static IDataGenerator<int> AutoIncrement(this DataGenerator<int> property, int start)
+        {
+            return new AutoIncrementDataGenerator(start, 1);
+        }
+
+        public static IDataGenerator<int> AutoIncrement(this DataGenerator<int> property, int start, int increment)
         {
             return new AutoIncrementDataGenerator(start, increment);
         }
+        #endregion
 
         public static IDataGenerator<Guid> Guid(this DataGenerator<Guid> property)
         {
@@ -265,9 +303,16 @@ namespace Mocking.DataGenerator
             return new ComplexObject<TProperty>(data);
         }
 
+        #region Complex List
+        public static IDataGenerator<List<TProperty>> ComplexList<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data) where TProperty : IList
+        {
+            return new ComplexList<TProperty>(data, count: 10);
+        }
+
         public static IDataGenerator<List<TProperty>> ComplexList<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data, int count = 10) where TProperty : IList
         {
             return new ComplexList<TProperty>(data, count);
         }
+        #endregion
     }
 }
