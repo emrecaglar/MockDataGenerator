@@ -4,18 +4,21 @@ using System.Text;
 
 namespace Mocking.DataGenerator.Generators
 {
+    //https://stackoverflow.com/questions/22046831/random-numbers-with-decimals?lq=1
     public class MoneyGenerator : RandomizerBase, IDataGenerator<decimal>
     {
-        private readonly int _multiplier;
+        private readonly decimal _min;
+        private readonly decimal _max;
 
-        public MoneyGenerator(int? multiplier = null)
+        public MoneyGenerator(decimal min, decimal max)
         {
-            _multiplier = multiplier ?? 1000;
+            _min = min;
+            _max = max;
         }
 
         public decimal Get()
         {
-            return Math.Round((decimal)(Randomizer.NextDouble() * 10 * _multiplier), 2);
+            return Math.Round((decimal)Randomizer.NextDouble() * (_max - _min) + _min, 2);
         }
     }
 }
