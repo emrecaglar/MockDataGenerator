@@ -13,36 +13,36 @@ namespace XUnitTestProject1
         [Fact]
         public void Test1()
         {
-            var data = new MockDataGenerator<MyType>();
+            var data = new MockDataGenerator<Model>();
 
-            data.Register(x => x.Id, new GuidGenerator());
-            data.Register(x => x.Name, new FromArray<string>(new[] { "TestString1", "TestString2" }));
-            data.Register(x => x.Active, new RandomBoolean());
-            data.Register(x => x.Level, new IntegerGenerator(0, 20));
-            data.Register(x => x.IBAN, new IBANGenerator());
-            data.Register(x => x.Checksum, new MD5Generator());
-            data.Register(x => x.InsertedDate, new DateTimeGenerator());
-            data.Register(x => x.Explanation, new LoremIpsumGenerator(5, 3));
-            data.Register(x => x.AllowedIp, new IPV4Generator());
-            data.Register(x => x.SecureType, new FromEnum<MyEnum>());
+            data.Register(x => x.Id, x => x.Guid());
+            data.Register(x => x.Name, x => x.Name());
+            data.Register(x => x.Active, x => x.Random());
+            data.Register(x => x.Level, x => x.Random());
+            data.Register(x => x.IBAN, x => x.IBAN());
+            data.Register(x => x.Checksum, x => x.MD5());
+            data.Register(x => x.InsertedDate, x => x.Random());
+            data.Register(x => x.Explanation, x => x.LoremIpsum());
+            data.Register(x => x.AllowedIp, x => x.IPV4());
+            data.Register(x => x.SecureType, x => x.FromEnum());
             data.Register(x => x.SomeField, "Const value");
 
-            data.Register(x => x.Provider, new ComplexObject<AnotherType>(
-                                                        new MockDataGenerator<AnotherType>()
-                                                            .Register(x => x.Name, new RandomString(5))
-                                                            .Register(x => x.Id, new GuidGenerator())));
+            data.Register(x => x.Provider, x => x.ComplexObject(
+                new MockDataGenerator<AnotherModel>()
+                        .Register(s => s.Name, s=>s.Random(5))
+                        .Register(s => s.Id, s=>s.Guid())));
 
             var mockData = data.Generate(count: 10);
         }
     }
-    
+
     public enum MyEnum
     {
         Foo,
         Bar
     }
 
-    public class MyType
+    public class Model
     {
         public Guid Id { get; set; }
 
@@ -57,19 +57,19 @@ namespace XUnitTestProject1
         public string Checksum { get; set; }
 
         public DateTime InsertedDate { get; set; }
-        
-        public AnotherType Provider { get; set; }
+
+        public AnotherModel Provider { get; set; }
 
         public string Explanation { get; set; }
 
         public string AllowedIp { get; set; }
-        
+
         public MyEnum SecureType { get; set; }
 
         public string SomeField { get; set; }
     }
 
-    public class AnotherType
+    public class AnotherModel
     {
         public Guid Id { get; set; }
 
