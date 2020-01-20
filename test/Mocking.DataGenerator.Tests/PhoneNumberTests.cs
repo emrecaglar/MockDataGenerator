@@ -1,9 +1,10 @@
-﻿using Mocking.DataGenerator.Generators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using Xunit;
+using Mocking.DataGenerator;
+using Mocking.DataGenerator.Generators;
 
 namespace Mocking.DataGenerator.Tests
 {
