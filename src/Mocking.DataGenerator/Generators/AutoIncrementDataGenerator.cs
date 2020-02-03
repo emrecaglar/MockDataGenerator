@@ -28,4 +28,17 @@ namespace Mocking.DataGenerator.Generators
             return data;
         }
     }
+
+    public class NullableAutoIncrementDataGenerator : AutoIncrementDataGenerator, IDataGenerator<int?>
+    {
+        public NullableAutoIncrementDataGenerator(int start = 1, int increment = 1):base(start, increment)
+        {
+            
+        }
+
+        public new int? Get()
+        {
+            return base.Get();
+        }
+    }
 }

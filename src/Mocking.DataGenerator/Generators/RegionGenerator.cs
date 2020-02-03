@@ -12,7 +12,7 @@ namespace Mocking.DataGenerator.Generators
 
         public string Get()
         {
-            return new RegionInfo(_cultures[Randomizer.Next(0, _cultures.Length)].LCID).DisplayName;
+            return new RegionInfo(_cultures[Randomizer.Next(0, _cultures.Length - 1)].LCID).DisplayName;
         }
     }
 }

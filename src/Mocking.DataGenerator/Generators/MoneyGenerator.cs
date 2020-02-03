@@ -21,4 +21,14 @@ namespace Mocking.DataGenerator.Generators
             return Math.Round((decimal)Randomizer.NextDouble() * (_max - _min) + _min, 2);
         }
     }
+
+    public class NullableMoneyGenerator : MoneyGenerator, IDataGenerator<decimal?>
+    {
+        public NullableMoneyGenerator(decimal min, decimal max):base(min, max) { }
+
+        public new decimal? Get()
+        {
+            return base.Get();
+        }
+    }
 }

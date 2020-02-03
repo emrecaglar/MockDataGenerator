@@ -101,9 +101,14 @@ namespace Mocking.DataGenerator
             return new FromArray<TProperty>(arr);
         }
 
-        public static IDataGenerator<TProperty> FromEnum<TProperty>(this DataGenerator<TProperty> property) where TProperty : Enum
+        public static IDataGenerator<TProperty> FromEnum<TProperty>(this DataGenerator<TProperty> property) where TProperty : struct, Enum
         {
             return new FromEnum<TProperty>();
+        }
+
+        public static IDataGenerator<TProperty?> FromEnum<TProperty>(this DataGenerator<TProperty?> property) where TProperty : struct, Enum
+        {
+            return new NullableFromEnum<TProperty>();
         }
 
         public static IDataGenerator<string> IBAN(this DataGenerator<string> property)
@@ -242,6 +247,11 @@ namespace Mocking.DataGenerator
             return new RandomBoolean();
         }
 
+        public static IDataGenerator<bool?> Random(this DataGenerator<bool?> property)
+        {
+            return new NullableRandomBoolean();
+        }
+
         #region Random Integer
         public static IDataGenerator<int> Random(this DataGenerator<int> property)
         {
@@ -256,6 +266,21 @@ namespace Mocking.DataGenerator
         public static IDataGenerator<int> Random(this DataGenerator<int> property, int min, int max)
         {
             return new IntegerGenerator(min, max);
+        }
+
+        public static IDataGenerator<int?> Random(this DataGenerator<int?> property)
+        {
+            return new NullableIntegerGenerator(min: int.MinValue, max: int.MaxValue);
+        }
+
+        public static IDataGenerator<int?> Random(this DataGenerator<int?> property, int min)
+        {
+            return new NullableIntegerGenerator(min, int.MaxValue);
+        }
+
+        public static IDataGenerator<int?> Random(this DataGenerator<int?> property, int min, int max)
+        {
+            return new NullableIntegerGenerator(min, max);
         }
         #endregion
 
@@ -274,6 +299,21 @@ namespace Mocking.DataGenerator
         {
             return new MoneyGenerator(min, max);
         }
+
+        public static IDataGenerator<decimal?> Money(this DataGenerator<decimal?> property)
+        {
+            return new NullableMoneyGenerator(decimal.MinValue, decimal.MaxValue);
+        }
+
+        public static IDataGenerator<decimal?> Money(this DataGenerator<decimal?> property, decimal min)
+        {
+            return new NullableMoneyGenerator(min, decimal.MaxValue);
+        }
+
+        public static IDataGenerator<decimal?> Money(this DataGenerator<decimal?> property, decimal min, decimal max)
+        {
+            return new NullableMoneyGenerator(min, max);
+        }
         #endregion
 
         #region AutoIncrement
@@ -291,6 +331,21 @@ namespace Mocking.DataGenerator
         {
             return new AutoIncrementDataGenerator(start, increment);
         }
+
+        public static IDataGenerator<int?> AutoIncrement(this DataGenerator<int?> property)
+        {
+            return new NullableAutoIncrementDataGenerator(int.MinValue, int.MaxValue);
+        }
+
+        public static IDataGenerator<int?> AutoIncrement(this DataGenerator<int?> property, int start)
+        {
+            return new NullableAutoIncrementDataGenerator(start, 1);
+        }
+
+        public static IDataGenerator<int?> AutoIncrement(this DataGenerator<int?> property, int start, int increment)
+        {
+            return new NullableAutoIncrementDataGenerator(start, increment);
+        }
         #endregion
 
         public static IDataGenerator<Guid> Guid(this DataGenerator<Guid> property)
@@ -298,9 +353,19 @@ namespace Mocking.DataGenerator
             return new GuidGenerator();
         }
 
+        public static IDataGenerator<Guid?> Guid(this DataGenerator<Guid?> property)
+        {
+            return new NullableGuidGenerator();
+        }
+
         public static IDataGenerator<DateTime> Random(this DataGenerator<DateTime> property)
         {
             return new DateTimeGenerator();
+        }
+
+        public static IDataGenerator<DateTime?> Random(this DataGenerator<DateTime?> property)
+        {
+            return new NullableDateTimeGenerator();
         }
 
         public static IDataGenerator<TProperty> ComplexObject<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data) where TProperty : class, new()

@@ -16,4 +16,14 @@
             return Randomizer.Next(_min, _max);
         }
     }
+
+    public class NullableIntegerGenerator : IntegerGenerator, IDataGenerator<int?>
+    {
+        public NullableIntegerGenerator(int min = int.MinValue, int max = int.MaxValue):base(min, max) { }
+
+        public new int? Get()
+        {
+            return base.Get();
+        }
+    }
 }

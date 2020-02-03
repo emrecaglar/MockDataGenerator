@@ -14,6 +14,7 @@ namespace Mocking.DataGenerator.Tests
         {
             var data = new MockDataGenerator<MyType>()
                             .Register(x => x.Value, x => x.AutoIncrement(10, 10))
+                            .Register(x=>x.NullableValue, x=>x.Random())
                             .Generate(count: 5);
 
 
@@ -28,5 +29,7 @@ namespace Mocking.DataGenerator.Tests
     public class MyType
     {
         public int Value { get; set; }
+
+        public int? NullableValue { get; set; }
     }
 }

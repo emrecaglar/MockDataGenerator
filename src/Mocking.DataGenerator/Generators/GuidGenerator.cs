@@ -9,4 +9,12 @@ namespace Mocking.DataGenerator.Generators
             return Guid.NewGuid();
         }
     }
+
+    public class NullableGuidGenerator : GuidGenerator, IDataGenerator<Guid?>
+    {
+        public Guid? Get()
+        {
+            return base.Get();
+        }
+    }
 }

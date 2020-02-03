@@ -10,8 +10,8 @@
     <PackageProjectUrl>https://github.com/emrecaglar/MockDataGenerator</PackageProjectUrl>
     <PackageTags>mocking, unit-test, test, mock-data</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.7</Version>
-    <PackageReleaseNotes>Bug fixes</PackageReleaseNotes>
+    <Version>1.2.1</Version>
+    <PackageReleaseNotes>Bug fixes, add nullable generators</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>

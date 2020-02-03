@@ -12,4 +12,14 @@ namespace Mocking.DataGenerator.Generators
             return values.Cast<TEnum>().ToList()[Randomizer.Next(0, values.Length - 1)];
         }
     }
+
+    public class NullableFromEnum<TEnum> : RandomizerBase, IDataGenerator<TEnum?> where TEnum : struct, Enum
+    {
+        public TEnum? Get()
+        {
+            var values = Enum.GetValues(typeof(TEnum));
+
+            return values.Cast<TEnum>().ToList()[Randomizer.Next(0, values.Length - 1)];
+        }
+    }
 }

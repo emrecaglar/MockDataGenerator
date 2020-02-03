@@ -11,4 +11,12 @@ namespace Mocking.DataGenerator.Generators
             return Convert.ToBoolean(_randomizer.Next(0, 1));
         }
     }
+
+    public class NullableRandomBoolean : RandomBoolean, IDataGenerator<bool?>
+    {
+        public new bool? Get()
+        {
+            return base.Get();
+        }
+    }
 }

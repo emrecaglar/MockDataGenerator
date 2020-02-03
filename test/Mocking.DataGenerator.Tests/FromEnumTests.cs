@@ -5,17 +5,15 @@ namespace Mocking.DataGenerator.Tests
 {
     public class FromEnumTests
     {
-        enum TestEnum
-        {
-            Foo,
-            Bar,
-            Car,
-            Test
-        }
+
 
         [Fact]
         public void FromEnum_ShoulBeContains_Enum()
         {
+            var gen = new MockDataGenerator<Foo>()
+                .Register(x => x.NonNullableEnum, x => x.FromEnum<TestEnum>())
+                .Register(x => x.NullableEnum, x => x.FromEnum<TestEnum>());
+
             var fromEnum = new FromEnum<TestEnum>();
 
             var enums = new[] { TestEnum.Bar, TestEnum.Car, TestEnum.Foo, TestEnum.Test };
@@ -30,5 +28,20 @@ namespace Mocking.DataGenerator.Tests
             Assert.Contains(value3, enums);
             Assert.Contains(value4, enums);
         }
+    }
+
+    enum TestEnum
+    {
+        Foo,
+        Bar,
+        Car,
+        Test
+    }
+
+    class Foo
+    {
+        public TestEnum NonNullableEnum { get; set; }
+
+        public TestEnum? NullableEnum { get; set; }
     }
 }
