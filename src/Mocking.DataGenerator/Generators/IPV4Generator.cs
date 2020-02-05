@@ -4,7 +4,7 @@
     {
         public string Get()
         {
-            return $"{Randomizer.Next(1, 255)}.{Randomizer.Next(1, 255)}.{Randomizer.Next(1, 255)}.{Randomizer.Next(1, 255)}";
+            return $"{Randomizer.Next(1, 256)}.{Randomizer.Next(1, 256)}.{Randomizer.Next(1, 256)}.{Randomizer.Next(1, 256)}";
         }
     }
 }

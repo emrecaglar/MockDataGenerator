@@ -9,7 +9,7 @@ namespace Mocking.DataGenerator.Generators
         {
             var values = Enum.GetValues(typeof(TEnum));
 
-            return values.Cast<TEnum>().ToList()[Randomizer.Next(0, values.Length - 1)];
+            return values.Cast<TEnum>().ToList()[Randomizer.Next(0, values.Length)];
         }
     }
 
@@ -19,7 +19,7 @@ namespace Mocking.DataGenerator.Generators
         {
             var values = Enum.GetValues(typeof(TEnum));
 
-            return values.Cast<TEnum>().ToList()[Randomizer.Next(0, values.Length - 1)];
+            return values.Cast<TEnum>().ToList()[Randomizer.Next(0, values.Length)];
         }
     }
 }

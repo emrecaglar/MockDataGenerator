@@ -36,7 +36,7 @@ namespace Mocking.DataGenerator.Generators
 
         public string Get()
         {
-            return countries[Randomizer.Next(0, countries.Length - 1)];
+            return countries[Randomizer.Next(0, countries.Length)];
         }
     }
 }

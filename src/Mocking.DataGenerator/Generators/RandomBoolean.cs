@@ -8,7 +8,7 @@ namespace Mocking.DataGenerator.Generators
 
         public bool Get()
         {
-            return Convert.ToBoolean(_randomizer.Next(0, 1));
+            return Convert.ToBoolean(_randomizer.Next(0, 2));
         }
     }
 

@@ -348,6 +348,7 @@ namespace Mocking.DataGenerator
         }
         #endregion
 
+        #region Guid
         public static IDataGenerator<Guid> Guid(this DataGenerator<Guid> property)
         {
             return new GuidGenerator();
@@ -358,6 +359,13 @@ namespace Mocking.DataGenerator
             return new NullableGuidGenerator();
         }
 
+        public static IDataGenerator<string> Guid(this DataGenerator<string> property)
+        {
+            return new StringGuidGenerator();
+        }
+        #endregion
+
+        #region DateTime
         public static IDataGenerator<DateTime> Random(this DataGenerator<DateTime> property)
         {
             return new DateTimeGenerator();
@@ -367,6 +375,17 @@ namespace Mocking.DataGenerator
         {
             return new NullableDateTimeGenerator();
         }
+
+        public static IDataGenerator<string> DateTime(this DataGenerator<string> property)
+        {
+            return new StringDateTimeGenerator(format: null);
+        }
+
+        public static IDataGenerator<string> DateTime(this DataGenerator<string> property, string format)
+        {
+            return new StringDateTimeGenerator(format);
+        } 
+        #endregion
 
         public static IDataGenerator<TProperty> ComplexObject<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data) where TProperty : class, new()
         {

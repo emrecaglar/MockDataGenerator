@@ -953,7 +953,7 @@ namespace Mocking.DataGenerator.Generators
 
         public string Get()
         {
-            return _names[Randomizer.Next(0, _names.Length - 1)];
+            return _names[Randomizer.Next(0, _names.Length)];
         }
     }
 }

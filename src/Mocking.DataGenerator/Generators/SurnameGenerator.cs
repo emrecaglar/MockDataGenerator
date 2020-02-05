@@ -1004,7 +1004,7 @@ namespace Mocking.DataGenerator.Generators
         };
         public string Get()
         {
-            return _surnames[Randomizer.Next(0, _surnames.Length - 1)];
+            return _surnames[Randomizer.Next(0, _surnames.Length)];
         }
     }
 }

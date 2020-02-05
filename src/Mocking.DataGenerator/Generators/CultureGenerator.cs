@@ -14,7 +14,7 @@ namespace Mocking.DataGenerator.Generators
                                       .Select(x => x.Name)
                                       .ToArray();
 
-            return cultures[Randomizer.Next(0, cultures.Length - 1)];
+            return cultures[Randomizer.Next(0, cultures.Length)];
         }
     }
 }

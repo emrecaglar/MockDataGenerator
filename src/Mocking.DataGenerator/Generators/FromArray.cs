@@ -13,7 +13,7 @@ namespace Mocking.DataGenerator.Generators
 
         public T Get()
         {
-            return _arr[Randomizer.Next(0, _arr.Length - 1)];
+            return _arr[Randomizer.Next(0, _arr.Length)];
         }
     }
 
@@ -28,7 +28,7 @@ namespace Mocking.DataGenerator.Generators
 
         public T? Get()
         {
-            return _arr[Randomizer.Next(0, _arr.Length - 1)];
+            return _arr[Randomizer.Next(0, _arr.Length)];
         }
     }
 }

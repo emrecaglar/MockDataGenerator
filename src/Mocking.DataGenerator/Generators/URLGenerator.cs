@@ -948,10 +948,10 @@ namespace Mocking.DataGenerator.Generators
         {
             if (_includePath)
             {
-                return _domain[Randomizer.Next(0, _domain.Length - 1)] + _paths[Randomizer.Next(0, _paths.Length - 1)];
+                return _domain[Randomizer.Next(0, _domain.Length)] + _paths[Randomizer.Next(0, _paths.Length)];
             }
 
-            return _domain[Randomizer.Next(0, _domain.Length - 1)];
+            return _domain[Randomizer.Next(0, _domain.Length)];
         }
     }
 }

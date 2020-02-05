@@ -17,4 +17,12 @@ namespace Mocking.DataGenerator.Generators
             return base.Get();
         }
     }
+
+    public class StringGuidGenerator : GuidGenerator, IDataGenerator<string>
+    {
+        public string Get()
+        {
+            return base.Get().ToString();
+        }
+    }
 }

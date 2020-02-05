@@ -20,7 +20,7 @@ namespace Mocking.DataGenerator.Generators
 
         public string Get()
         {
-            return languages[Randomizer.Next(0, languages.Length - 1)];
+            return languages[Randomizer.Next(0, languages.Length)];
         }
     }
 }

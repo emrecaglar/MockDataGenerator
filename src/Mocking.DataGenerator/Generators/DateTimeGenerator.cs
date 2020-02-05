@@ -17,4 +17,23 @@ namespace Mocking.DataGenerator.Generators
             return base.Get();
         }
     }
+
+    public class StringDateTimeGenerator : RandomizerBase, IDataGenerator<string>
+    {
+        private readonly string _format;
+
+        public StringDateTimeGenerator(string format = null)
+        {
+            _format = format;
+        }
+
+        public string Get()
+        {
+            var dateTime = DateTime.Now.AddDays(Randomizer.Next(-1500, 1500)).AddSeconds(Randomizer.Next(-15000, 15000));
+
+            return _format == null
+                        ? dateTime.ToString()
+                        : dateTime.ToString(_format);
+        }
+    }
 }

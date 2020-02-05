@@ -20,7 +20,7 @@ namespace Mocking.DataGenerator.Generators
         };
         public string Get()
         {
-            return _symbols[Randomizer.Next(0, _symbols.Length - 1)];
+            return _symbols[Randomizer.Next(0, _symbols.Length)];
         }
     }
 }

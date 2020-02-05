@@ -28,7 +28,7 @@ namespace Mocking.DataGenerator.Generators
             var builder = new StringBuilder();
             for (int i = 0; i < digitCount; i++)
             {
-                builder.Append(Randomizer.Next(1, 9));
+                builder.Append(Randomizer.Next(1, 10));
             }
 
             var phoneNumber = long.Parse(builder.ToString());

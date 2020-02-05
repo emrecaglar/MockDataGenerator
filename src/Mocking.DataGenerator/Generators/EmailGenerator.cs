@@ -1013,7 +1013,7 @@ namespace Mocking.DataGenerator.Generators
              
         public string Get()
         {
-            return _emails[Randomizer.Next(0, _emails.Length - 1)];
+            return _emails[Randomizer.Next(0, _emails.Length)];
         }
     }
 }

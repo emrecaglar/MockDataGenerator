@@ -10,7 +10,7 @@ namespace Mocking.DataGenerator.Generators
 
         public string Get()
         {
-            return _genders[Randomizer.Next(0, _genders.Length - 1)];
+            return _genders[Randomizer.Next(0, _genders.Length)];
         }
     }
 }
