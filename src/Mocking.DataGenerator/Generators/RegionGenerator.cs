@@ -8,7 +8,7 @@ namespace Mocking.DataGenerator.Generators
 {
     public class RegionGenerator : RandomizerBase, IDataGenerator<string>
     {
-        private readonly CultureInfo[] _cultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures).ToArray();
+        private readonly CultureInfo[] _cultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures);
 
         public string Get()
         {
