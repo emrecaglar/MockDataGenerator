@@ -125,6 +125,7 @@ namespace Mocking.DataGenerator
             return new FromArray<TProperty>(arr);
         }
 
+        #region Enum
         public static IDataGenerator<TProperty> FromEnum<TProperty>(this DataGenerator<TProperty> property) where TProperty : struct, Enum
         {
             return new FromEnum<TProperty>();
@@ -133,7 +134,8 @@ namespace Mocking.DataGenerator
         public static IDataGenerator<TProperty?> FromEnum<TProperty>(this DataGenerator<TProperty?> property) where TProperty : struct, Enum
         {
             return new NullableFromEnum<TProperty>();
-        }
+        } 
+        #endregion
 
         public static IDataGenerator<string> IBAN(this DataGenerator<string> property)
         {
@@ -195,27 +197,27 @@ namespace Mocking.DataGenerator
         #region Random String
         public static IDataGenerator<string> Random(this DataGenerator<string> property)
         {
-            return new RandomString(upperLetter: 5, lowerLetter: 5, digit: 5, specialChars: 5);
+            return new RandomStringGenerator(upperLetter: 5, lowerLetter: 5, digit: 5, specialChars: 5);
         }
 
         public static IDataGenerator<string> Random(this DataGenerator<string> property, int upperLetter)
         {
-            return new RandomString(upperLetter, lowerLetter: 5, digit: 5, specialChars: 5);
+            return new RandomStringGenerator(upperLetter, lowerLetter: 5, digit: 5, specialChars: 5);
         }
 
         public static IDataGenerator<string> Random(this DataGenerator<string> property, int upperLetter, int lowerLetter)
         {
-            return new RandomString(upperLetter, lowerLetter, digit: 5, specialChars: 5);
+            return new RandomStringGenerator(upperLetter, lowerLetter, digit: 5, specialChars: 5);
         }
 
         public static IDataGenerator<string> Random(this DataGenerator<string> property, int upperLetter, int lowerLetter, int digit)
         {
-            return new RandomString(upperLetter, lowerLetter, digit, specialChars: 5);
+            return new RandomStringGenerator(upperLetter, lowerLetter, digit, specialChars: 5);
         }
 
         public static IDataGenerator<string> Random(this DataGenerator<string> property, int upperLetter, int lowerLetter, int digit, int specialChars)
         {
-            return new RandomString(upperLetter, lowerLetter, digit, specialChars);
+            return new RandomStringGenerator(upperLetter, lowerLetter, digit, specialChars);
         }
         #endregion
 
@@ -305,6 +307,102 @@ namespace Mocking.DataGenerator
         public static IDataGenerator<int?> Random(this DataGenerator<int?> property, int min, int max)
         {
             return new NullableIntegerGenerator(min, max);
+        }
+        #endregion
+
+        #region Random Byte
+        public static IDataGenerator<byte> Random(this DataGenerator<byte> property)
+        {
+            return new ByteGenerator(min: byte.MinValue, max: byte.MaxValue);
+        }
+
+        public static IDataGenerator<byte> Random(this DataGenerator<byte> property, byte min)
+        {
+            return new ByteGenerator(min, byte.MaxValue);
+        }
+
+        public static IDataGenerator<byte> Random(this DataGenerator<byte> property, byte min, byte max)
+        {
+            return new ByteGenerator(min, max);
+        }
+
+        public static IDataGenerator<byte?> Random(this DataGenerator<byte?> property)
+        {
+            return new NullableByteGenerator(min: byte.MinValue, max: byte.MaxValue);
+        }
+
+        public static IDataGenerator<byte?> Random(this DataGenerator<byte?> property, byte min)
+        {
+            return new NullableByteGenerator(min, byte.MaxValue);
+        }
+
+        public static IDataGenerator<byte?> Random(this DataGenerator<byte?> property, byte min, byte max)
+        {
+            return new NullableByteGenerator(min, max);
+        }
+        #endregion
+
+        #region Random Short
+        public static IDataGenerator<short> Random(this DataGenerator<short> property)
+        {
+            return new ShortGenerator(min: short.MinValue, max: short.MaxValue);
+        }
+
+        public static IDataGenerator<short> Random(this DataGenerator<short> property, short min)
+        {
+            return new ShortGenerator(min, short.MaxValue);
+        }
+
+        public static IDataGenerator<short> Random(this DataGenerator<short> property, short min, short max)
+        {
+            return new ShortGenerator(min, max);
+        }
+
+        public static IDataGenerator<short?> Random(this DataGenerator<short?> property)
+        {
+            return new NullableShortGenerator(min: short.MinValue, max: short.MaxValue);
+        }
+
+        public static IDataGenerator<short?> Random(this DataGenerator<short?> property, short min)
+        {
+            return new NullableShortGenerator(min, short.MaxValue);
+        }
+
+        public static IDataGenerator<short?> Random(this DataGenerator<short?> property, short min, short max)
+        {
+            return new NullableShortGenerator(min, max);
+        }
+        #endregion
+
+        #region Random Long
+        public static IDataGenerator<long> Random(this DataGenerator<long> property)
+        {
+            return new LongGenerator(min: long.MinValue, max: long.MaxValue);
+        }
+
+        public static IDataGenerator<long> Random(this DataGenerator<long> property, long min)
+        {
+            return new LongGenerator(min, int.MaxValue);
+        }
+
+        public static IDataGenerator<long> Random(this DataGenerator<long> property, long min, long max)
+        {
+            return new LongGenerator(min, max);
+        }
+
+        public static IDataGenerator<long?> Random(this DataGenerator<long?> property)
+        {
+            return new NullableLongGenerator(min: long.MinValue, max: long.MaxValue);
+        }
+
+        public static IDataGenerator<long?> Random(this DataGenerator<long?> property, long min)
+        {
+            return new NullableLongGenerator(min, long.MaxValue);
+        }
+
+        public static IDataGenerator<long?> Random(this DataGenerator<long?> property, long min, long max)
+        {
+            return new NullableLongGenerator(min, max);
         }
         #endregion
 
@@ -411,20 +509,53 @@ namespace Mocking.DataGenerator
         }
         #endregion
 
-        public static IDataGenerator<TProperty> ComplexObject<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data) where TProperty : class, new()
+        public static IDataGenerator<TProperty> Object<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data) where TProperty : class, new()
         {
             return new ComplexObject<TProperty>(data);
         }
 
         #region Complex List
-        public static IDataGenerator<List<TProperty>> ComplexList<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data) where TProperty : IList
+
+        public static IDataGenerator<List<TProperty>> List<TProperty>(this DataGenerator<TProperty> property) where TProperty : IList<TProperty>
         {
-            return new ComplexList<TProperty>(data, count: 10);
+            return new PrimitiveListGenerator<TProperty>(count: 10);
         }
 
-        public static IDataGenerator<List<TProperty>> ComplexList<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data, int count = 10) where TProperty : IList
+        public static IDataGenerator<List<TProperty>> List<TProperty>(this DataGenerator<TProperty> property, int count = 10) where TProperty : IList<TProperty>
         {
-            return new ComplexList<TProperty>(data, count);
+            return new PrimitiveListGenerator<TProperty>(count);
+        }
+
+        public static IDataGenerator<List<TProperty>> List<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data) where TProperty : IList<TProperty>
+        {
+            return new ListGenerator<TProperty>(data, count: 10);
+        }
+
+        public static IDataGenerator<IList<TProperty>> List<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data, int count = 10) where TProperty : IList<TProperty>
+        {
+            return new ListGenerator<TProperty>(data, count);
+        }
+        #endregion
+
+        #region Array
+        public static IDataGenerator<TProperty[]> Array<TProperty>(this DataGenerator<TProperty> property) where TProperty : IEnumerable<TProperty>
+        {
+            return new PrimitiveArrayGenerator<TProperty>(count: 10);
+        }
+
+        public static IDataGenerator<TProperty[]> Array<TProperty>(this DataGenerator<TProperty> property, int count = 10) where TProperty : IEnumerable<TProperty>
+        {
+            return new PrimitiveArrayGenerator<TProperty>(count);
+        }
+
+        public static IDataGenerator<TProperty[]> Array<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data) where TProperty : IEnumerable<TProperty>
+        {
+            return new ArrayGenerator<TProperty>(data, count: 10);
+        }
+
+        public static IDataGenerator<TProperty[]> Array<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data, int count = 10) where TProperty : IEnumerable<TProperty>
+        {
+            return new ArrayGenerator<TProperty>(data, count);
         }
         #endregion
     }

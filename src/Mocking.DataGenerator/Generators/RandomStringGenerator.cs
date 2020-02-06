@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Mocking.DataGenerator.Generators
 {
-    public class RandomString : RandomizerBase, IDataGenerator<string>
+    public class RandomStringGenerator : RandomizerBase, IDataGenerator<string>
     {
         const string UPPER_LETTER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const string LOWER_LETTER = "abcdefghijklmnopqrstuvwxyz";
@@ -16,7 +16,7 @@ namespace Mocking.DataGenerator.Generators
         private readonly int _digit;
         private readonly int _specialChars;
 
-        public RandomString(
+        public RandomStringGenerator(
             int upperLetter = 5,
             int lowerLetter = 5,
             int digit = 5,
