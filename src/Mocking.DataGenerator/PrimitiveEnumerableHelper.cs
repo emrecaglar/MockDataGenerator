@@ -9,18 +9,31 @@ namespace Mocking.DataGenerator
 {
     internal class PrimitiveEnumerableHelper
     {
-        public static TProperty[] Generate<TProperty>(int count)
+        public static T Generate<T>(Type elementType, int count)
         {
-            var generatorInstance = PrimitiveDataGeneratorMap[typeof(TProperty)];
+            var generatorInstance = PrimitiveDataGeneratorMap[elementType];
 
             var methodInfo = generatorInstance.GetType().GetMethod("Get");
 
-            var data = Repeat(() => 
+            var data = Repeat(() =>
             {
-                return methodInfo.Invoke(generatorInstance, new object[] { });
+                var value = methodInfo.Invoke(generatorInstance, new object[] { });
+
+                return Convert.ChangeType(value, elementType);
             }, count);
 
-            return data.Cast<TProperty>().ToArray();
+            return Cast<T>(elementType, data);
+        }
+
+        private static T Cast<T>(Type elementType,  List<object> items)
+        {
+            var castMethod = typeof(Enumerable).GetMethod(nameof(Enumerable.Cast), new[] { typeof(IEnumerable) }).MakeGenericMethod(elementType);
+
+            var list = castMethod.Invoke(null, new object[] { items });
+
+            var toListMethod = typeof(Enumerable).GetMethod(nameof(Enumerable.ToList)).MakeGenericMethod(elementType);
+
+            return (T)toListMethod.Invoke(null, new object[] { list });
         }
 
         private static Dictionary<Type, object> PrimitiveDataGeneratorMap = new Dictionary<Type, object>
@@ -38,10 +51,10 @@ namespace Mocking.DataGenerator
             { typeof(string), new RandomStringGenerator() },
             { typeof(decimal), new MoneyGenerator(decimal.MinValue, decimal.MaxValue) },
             { typeof(double), new MoneyGenerator(decimal.MinValue, decimal.MaxValue) },
-            { typeof(float), new MoneyGenerator(decimal.MinValue, decimal.MaxValue) },
+            { typeof(float), new MoneyGenerator(decimal.MinValue, decimal.MaxValue) }
         };
 
-        private static T[] Repeat<T>(Func<T> executer, int count)
+        private static List<T> Repeat<T>(Func<T> executer, int count)
         {
             var list = new List<T>();
 
@@ -50,7 +63,7 @@ namespace Mocking.DataGenerator
                 list.Add(executer());
             }
 
-            return list.ToArray();
+            return list;
         }
     }
 }

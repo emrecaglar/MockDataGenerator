@@ -18,7 +18,7 @@ namespace Mocking.DataGenerator.Generators
 
         public decimal Get()
         {
-            return Math.Round((decimal)Randomizer.NextDouble() * (_max - _min) + _min, 2);
+            return Math.Round((decimal)Randomizer.NextDouble() * ((decimal)(_max - _min)) + _min, 2);
         }
     }
 

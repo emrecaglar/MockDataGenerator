@@ -134,7 +134,7 @@ namespace Mocking.DataGenerator
         public static IDataGenerator<TProperty?> FromEnum<TProperty>(this DataGenerator<TProperty?> property) where TProperty : struct, Enum
         {
             return new NullableFromEnum<TProperty>();
-        } 
+        }
         #endregion
 
         public static IDataGenerator<string> IBAN(this DataGenerator<string> property)
@@ -514,48 +514,48 @@ namespace Mocking.DataGenerator
             return new ComplexObject<TProperty>(data);
         }
 
-        #region Complex List
+        #region List
 
-        public static IDataGenerator<List<TProperty>> List<TProperty>(this DataGenerator<TProperty> property) where TProperty : IList<TProperty>
+        public static IDataGenerator<TProperty> List<TProperty>(this DataGenerator<TProperty> property) where TProperty : class, IList
         {
             return new PrimitiveListGenerator<TProperty>(count: 10);
         }
 
-        public static IDataGenerator<List<TProperty>> List<TProperty>(this DataGenerator<TProperty> property, int count = 10) where TProperty : IList<TProperty>
+        public static IDataGenerator<TProperty> List<TProperty>(this DataGenerator<TProperty> property, int count = 10) where TProperty : class, IList
         {
             return new PrimitiveListGenerator<TProperty>(count);
         }
 
-        public static IDataGenerator<List<TProperty>> List<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data) where TProperty : IList<TProperty>
+        public static IDataGenerator<TProperty> List<TProperty, TElement>(this DataGenerator<TProperty> property, MockDataGenerator<TElement> mocker) where TProperty : class, IList
         {
-            return new ListGenerator<TProperty>(data, count: 10);
+            return new ListGenerator<TProperty, TElement>(mocker, count: 10);
         }
 
-        public static IDataGenerator<IList<TProperty>> List<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data, int count = 10) where TProperty : IList<TProperty>
+        public static IDataGenerator<TProperty> List<TProperty, TElement>(this DataGenerator<TProperty> property, MockDataGenerator<TElement> mocker, int count = 10) where TProperty : class, IList
         {
-            return new ListGenerator<TProperty>(data, count);
+            return new ListGenerator<TProperty, TElement>(mocker, count);
         }
         #endregion
 
         #region Array
-        public static IDataGenerator<TProperty[]> Array<TProperty>(this DataGenerator<TProperty> property) where TProperty : IEnumerable<TProperty>
+        public static IDataGenerator<TProperty> Array<TProperty>(this DataGenerator<TProperty> property) where TProperty : class, IEnumerable
         {
             return new PrimitiveArrayGenerator<TProperty>(count: 10);
         }
 
-        public static IDataGenerator<TProperty[]> Array<TProperty>(this DataGenerator<TProperty> property, int count = 10) where TProperty : IEnumerable<TProperty>
+        public static IDataGenerator<TProperty> Array<TProperty>(this DataGenerator<TProperty> property, int count = 10) where TProperty : class, IEnumerable
         {
             return new PrimitiveArrayGenerator<TProperty>(count);
         }
 
-        public static IDataGenerator<TProperty[]> Array<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data) where TProperty : IEnumerable<TProperty>
+        public static IDataGenerator<TProperty> Array<TProperty, TElementType>(this DataGenerator<TProperty> property, MockDataGenerator<TElementType> mocker) where TProperty : class, IEnumerable
         {
-            return new ArrayGenerator<TProperty>(data, count: 10);
+            return new ArrayGenerator<TProperty, TElementType>(mocker, count: 10);
         }
 
-        public static IDataGenerator<TProperty[]> Array<TProperty>(this DataGenerator<TProperty> property, MockDataGenerator<TProperty> data, int count = 10) where TProperty : IEnumerable<TProperty>
+        public static IDataGenerator<TProperty> Array<TProperty, TElementType>(this DataGenerator<TProperty> property, MockDataGenerator<TElementType> mocker, int count = 10) where TProperty : class, IEnumerable
         {
-            return new ArrayGenerator<TProperty>(data, count);
+            return new ArrayGenerator<TProperty, TElementType>(mocker, count);
         }
         #endregion
     }

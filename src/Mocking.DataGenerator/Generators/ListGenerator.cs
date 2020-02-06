@@ -1,29 +1,30 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Mocking.DataGenerator.Generators
 {
-    public class ListGenerator<T> : RandomizerBase, IDataGenerator<List<T>>
+    public class ListGenerator<TProperty, TElement> : RandomizerBase, IDataGenerator<TProperty> where TProperty : class
     {
-        private readonly MockDataGenerator<T> _data;
+        private readonly MockDataGenerator<TElement> _data;
 
         private readonly int _count;
 
-        public ListGenerator(MockDataGenerator<T> data, int count = 10)
+        public ListGenerator(MockDataGenerator<TElement> data, int count = 10)
         {
             _data = data;
 
             _count = count;
         }
 
-        public List<T> Get()
+        public TProperty Get()
         {
-            return _data.Generate(_count);
+            return _data.Generate(_count) as TProperty;
         }
     }
 
-    public class PrimitiveListGenerator<T> : RandomizerBase, IDataGenerator<List<T>>
+    public class PrimitiveListGenerator<T> : RandomizerBase, IDataGenerator<T> where T : class
     {
         private readonly int _count;
 
@@ -32,9 +33,11 @@ namespace Mocking.DataGenerator.Generators
             _count = count;
         }
 
-        public List<T> Get()
+        public T Get()
         {
-            return PrimitiveEnumerableHelper.Generate<T>(_count).ToList();
+            var elementType = typeof(T).GetGenericArguments()[0];
+
+            return PrimitiveEnumerableHelper.Generate<T>(elementType, _count);
         }
     }
 }

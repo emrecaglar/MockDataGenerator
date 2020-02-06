@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Mocking.DataGenerator.Generators
 {
-    public class PrimitiveArrayGenerator<TProperty> : RandomizerBase, IDataGenerator<TProperty[]>
+    public class PrimitiveArrayGenerator<TProperty> : RandomizerBase, IDataGenerator<TProperty> where TProperty : class
     {
         private readonly int _count;
 
@@ -13,26 +13,28 @@ namespace Mocking.DataGenerator.Generators
             _count = count;
         }
 
-        public TProperty[] Get()
+        public TProperty Get()
         {
-            return PrimitiveEnumerableHelper.Generate<TProperty>(_count);
+            var elementType = typeof(TProperty).GetElementType();
+
+            return PrimitiveEnumerableHelper.Generate<TProperty>(elementType, _count);
         }
     }
 
-    public class ArrayGenerator<TProperty> : RandomizerBase, IDataGenerator<TProperty[]>
+    public class ArrayGenerator<TProperty, TElementType> : RandomizerBase, IDataGenerator<TProperty> where TProperty : class
     {
-        private readonly MockDataGenerator<TProperty> _mocker;
+        private readonly MockDataGenerator<TElementType> _mocker;
         private readonly int _count;
 
-        public ArrayGenerator(MockDataGenerator<TProperty> mocker, int count)
+        public ArrayGenerator(MockDataGenerator<TElementType> mocker, int count)
         {
             _mocker = mocker;
             _count = count;
         }
 
-        public TProperty[] Get()
+        public TProperty Get()
         {
-            return _mocker.Generate(_count).ToArray();
+            return _mocker.Generate(_count).ToArray() as TProperty;
         }
     }
 }
