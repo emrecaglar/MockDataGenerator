@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Mocking.DataGenerator.Generators
@@ -1002,7 +1003,7 @@ namespace Mocking.DataGenerator.Generators
             "Meale",
             "Tamlett"
         };
-        public string Get()
+        public string Get(CultureInfo culture)
         {
             return _surnames[Randomizer.Next(0, _surnames.Length)];
         }

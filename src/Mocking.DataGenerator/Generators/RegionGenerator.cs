@@ -8,12 +8,8 @@ namespace Mocking.DataGenerator.Generators
 {
     public class RegionGenerator : RandomizerBase, IDataGenerator<string>
     {
-        private readonly CultureInfo[] _cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-
-        public string Get()
+        public string Get(CultureInfo culture)
         {
-            var culture = _cultures[Randomizer.Next(0, _cultures.Length)];
-
             return new RegionInfo(culture.LCID).DisplayName;
         }
     }

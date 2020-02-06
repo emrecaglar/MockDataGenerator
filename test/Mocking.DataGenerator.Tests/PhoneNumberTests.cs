@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using Xunit;
 using Mocking.DataGenerator;
 using Mocking.DataGenerator.Generators;
+using System.Globalization;
 
 namespace Mocking.DataGenerator.Tests
 {
@@ -14,7 +15,7 @@ namespace Mocking.DataGenerator.Tests
         public void PhoneNumberGenerator_ShoulBePhoneGenerate()
         {
             var generator = new PhoneGenerator(format: "+#(###)-###-##-##");
-            var phone = generator.Get();
+            var phone = generator.Get(new CultureInfo("en-US"));
 
             var regex = new Regex(@"\+\d\(\d{3}\)-\d{3}-\d{2}-\d{2}");
 

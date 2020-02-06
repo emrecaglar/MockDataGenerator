@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -7,7 +8,7 @@ namespace Mocking.DataGenerator.Generators
 {
     public class MD5Generator : RandomizerBase, IDataGenerator<string>
     {
-        public string Get()
+        public string Get(CultureInfo culture)
         {
             var alg = MD5.Create();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Mocking.DataGenerator.Generators
@@ -944,7 +945,7 @@ namespace Mocking.DataGenerator.Generators
             _includePath = includePath;
         }
 
-        public string Get()
+        public string Get(CultureInfo culture)
         {
             if (_includePath)
             {

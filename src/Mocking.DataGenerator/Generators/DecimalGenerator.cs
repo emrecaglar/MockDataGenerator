@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Mocking.DataGenerator.Generators
@@ -7,9 +8,9 @@ namespace Mocking.DataGenerator.Generators
     //https://stackoverflow.com/questions/22046831/random-numbers-with-decimals?lq=1
     public class DecimalGenerator : RandomizerBase, IDataGenerator<decimal>
     {
-        public decimal Get()
+        public decimal Get(CultureInfo culture)
         {
-            return Randomizer.NextDecimal() * 1000;
+            return (decimal)Math.Round(Randomizer.NextDouble() * 1000, 2);
         }
     }
 
@@ -17,9 +18,9 @@ namespace Mocking.DataGenerator.Generators
     {
         public NullableDecimalGenerator():base() { }
 
-        public new decimal? Get()
+        public new decimal? Get(CultureInfo culture)
         {
-            return base.Get();
+            return base.Get(culture);
         }
     }
 }

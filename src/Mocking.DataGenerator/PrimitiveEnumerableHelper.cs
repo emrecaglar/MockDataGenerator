@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Mocking.DataGenerator
 {
     internal class PrimitiveEnumerableHelper
     {
-        public static T Generate<T>(Type elementType, int count)
+        public static T Generate<T>(Type elementType, CultureInfo culture, int count)
         {
             var generatorInstance = PrimitiveDataGeneratorMap[elementType];
 
@@ -18,7 +19,7 @@ namespace Mocking.DataGenerator
 
             var data = Repeat(() =>
             {
-                var value = methodInfo.Invoke(generatorInstance, new object[] { });
+                var value = methodInfo.Invoke(generatorInstance, new object[] { culture });
 
                 return Convert.ChangeType(value, elementType);
             }, count);

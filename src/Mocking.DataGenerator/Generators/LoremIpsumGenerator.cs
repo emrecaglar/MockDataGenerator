@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -19,7 +20,7 @@ namespace Mocking.DataGenerator.Generators
             _paragraphCount = paragraphCount;
         }
 
-        public string Get()
+        public string Get(CultureInfo culture)
         {
             List<string> sentence = ORIGINAL.Split(".").ToList();
 

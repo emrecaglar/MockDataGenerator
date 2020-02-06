@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -15,13 +16,13 @@ namespace Mocking.DataGenerator
 
     public class MockDataGenerator<TModel>
     {
-        private readonly Dictionary<LambdaExpression, Func<TModel, object>> _expressions = new Dictionary<LambdaExpression, Func<TModel, object>>();
+        private readonly Dictionary<LambdaExpression, Func<TModel, CultureInfo, object>> _expressions = new Dictionary<LambdaExpression, Func<TModel, CultureInfo, object>>();
 
         public MockDataGenerator<TModel> Register<TProperty>(Expression<Func<TModel, TProperty>> expression, Func<TModel, TProperty> valueResolver)
         {
             if (!_expressions.ContainsKey(expression))
             {
-                _expressions.Add(expression, new Func<TModel, object>((model) => valueResolver(model)));
+                _expressions.Add(expression, new Func<TModel, CultureInfo, object>((model, cultureInfo) => valueResolver(model)));
             }
 
             return this;
@@ -31,7 +32,7 @@ namespace Mocking.DataGenerator
         {
             if (!_expressions.ContainsKey(expression))
             {
-                _expressions.Add(expression, new Func<TModel, object>((model) => valueResolver()));
+                _expressions.Add(expression, new Func<TModel, CultureInfo, object>((model, cultureInfo) => valueResolver()));
             }
 
             return this;
@@ -41,7 +42,7 @@ namespace Mocking.DataGenerator
         {
             if (!_expressions.ContainsKey(expression))
             {
-                _expressions.Add(expression, new Func<TModel, object>((model) => value));
+                _expressions.Add(expression, new Func<TModel, CultureInfo, object>((model, cultureInfo) => value));
             }
 
             return this;
@@ -51,7 +52,7 @@ namespace Mocking.DataGenerator
         {
             if (!_expressions.ContainsKey(expression))
             {
-                _expressions.Add(expression, new Func<TModel, object>((model) => randomData.Get()));
+                _expressions.Add(expression, new Func<TModel, CultureInfo, object>((model, cultureInfo) => randomData.Get(cultureInfo)));
             }
 
             return this;
@@ -65,7 +66,7 @@ namespace Mocking.DataGenerator
 
                 var randomData = factory.Compile()(dataGenerator);
 
-                _expressions.Add(expression, new Func<TModel, object>((model) => randomData.Get()));
+                _expressions.Add(expression, new Func<TModel, CultureInfo, object>((model, cultureInfo) => randomData.Get(cultureInfo)));
             }
 
             return this;
@@ -75,8 +76,13 @@ namespace Mocking.DataGenerator
         {
             var data = new List<TModel>();
 
+            var cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+            var rnd = new Random();
+
             for (int i = 0; i < count; i++)
             {
+                var cultureInfo = cultures[rnd.Next(0, cultures.Length)];
+
                 var model = Activator.CreateInstance<TModel>();
 
                 foreach (var expression in _expressions)
@@ -85,7 +91,7 @@ namespace Mocking.DataGenerator
 
                     var pi = (PropertyInfo)memberExpression.Member;
 
-                    var value = expression.Value(model);
+                    var value = expression.Value(model, cultureInfo);
 
                     pi.SetValue(model, value, new object[] { });
                 }
@@ -100,13 +106,17 @@ namespace Mocking.DataGenerator
         {
             var model = Activator.CreateInstance<TModel>();
 
+            var cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+            var rnd = new Random();
+            var cultureInfo = cultures[rnd.Next(0, cultures.Length)];
+
             foreach (var expression in _expressions)
             {
                 var memberExpression = (MemberExpression)expression.Key.Body;
 
                 var pi = (PropertyInfo)memberExpression.Member;
 
-                pi.SetValue(model, expression.Value(model), new object[] { });
+                pi.SetValue(model, expression.Value(model, cultureInfo), new object[] { });
             }
 
             return model;
@@ -164,10 +174,17 @@ namespace Mocking.DataGenerator
         }
         #endregion
 
-        public static IDataGenerator<string> Url(this DataGenerator<string> property, bool includePath = true)
+        #region Url
+        public static IDataGenerator<string> Url(this DataGenerator<string> property)
+        {
+            return new URLGenerator(includePath: false);
+        }
+
+        public static IDataGenerator<string> Url(this DataGenerator<string> property, bool includePath)
         {
             return new URLGenerator(includePath);
-        }
+        } 
+        #endregion
 
         public static IDataGenerator<string> Email(this DataGenerator<string> property)
         {
@@ -197,22 +214,22 @@ namespace Mocking.DataGenerator
         #region Random String
         public static IDataGenerator<string> Random(this DataGenerator<string> property)
         {
-            return new RandomStringGenerator(upperLetter: 5, lowerLetter: 5, digit: 5, specialChars: 5);
+            return new RandomStringGenerator();
         }
 
         public static IDataGenerator<string> Random(this DataGenerator<string> property, int upperLetter)
         {
-            return new RandomStringGenerator(upperLetter, lowerLetter: 5, digit: 5, specialChars: 5);
+            return new RandomStringGenerator(upperLetter);
         }
 
         public static IDataGenerator<string> Random(this DataGenerator<string> property, int upperLetter, int lowerLetter)
         {
-            return new RandomStringGenerator(upperLetter, lowerLetter, digit: 5, specialChars: 5);
+            return new RandomStringGenerator(upperLetter, lowerLetter);
         }
 
         public static IDataGenerator<string> Random(this DataGenerator<string> property, int upperLetter, int lowerLetter, int digit)
         {
-            return new RandomStringGenerator(upperLetter, lowerLetter, digit, specialChars: 5);
+            return new RandomStringGenerator(upperLetter, lowerLetter, digit);
         }
 
         public static IDataGenerator<string> Random(this DataGenerator<string> property, int upperLetter, int lowerLetter, int digit, int specialChars)
@@ -232,7 +249,7 @@ namespace Mocking.DataGenerator
             return new LoremIpsumGenerator(sentenceCount: 3, paragraphCount: 1);
         }
 
-        public static IDataGenerator<string> LoremIpsum(this DataGenerator<string> property, int sentenceCount = 3)
+        public static IDataGenerator<string> LoremIpsum(this DataGenerator<string> property, int sentenceCount)
         {
             return new LoremIpsumGenerator(sentenceCount, paragraphCount: 1);
         }
@@ -421,7 +438,7 @@ namespace Mocking.DataGenerator
         #region AutoIncrement
         public static IDataGenerator<int> AutoIncrement(this DataGenerator<int> property)
         {
-            return new AutoIncrementDataGenerator(int.MinValue, int.MaxValue);
+            return new AutoIncrementDataGenerator();
         }
 
         public static IDataGenerator<int> AutoIncrement(this DataGenerator<int> property, int start)
@@ -501,7 +518,7 @@ namespace Mocking.DataGenerator
             return new PrimitiveListGenerator<TProperty>(count: 10);
         }
 
-        public static IDataGenerator<TProperty> List<TProperty>(this DataGenerator<TProperty> property, int count = 10) where TProperty : class, IList
+        public static IDataGenerator<TProperty> List<TProperty>(this DataGenerator<TProperty> property, int count) where TProperty : class, IList
         {
             return new PrimitiveListGenerator<TProperty>(count);
         }
@@ -511,7 +528,7 @@ namespace Mocking.DataGenerator
             return new ListGenerator<TProperty, TElement>(mocker, count: 10);
         }
 
-        public static IDataGenerator<TProperty> List<TProperty, TElement>(this DataGenerator<TProperty> property, MockDataGenerator<TElement> mocker, int count = 10) where TProperty : class, IList
+        public static IDataGenerator<TProperty> List<TProperty, TElement>(this DataGenerator<TProperty> property, MockDataGenerator<TElement> mocker, int count) where TProperty : class, IList
         {
             return new ListGenerator<TProperty, TElement>(mocker, count);
         }
@@ -523,7 +540,7 @@ namespace Mocking.DataGenerator
             return new PrimitiveArrayGenerator<TProperty>(count: 10);
         }
 
-        public static IDataGenerator<TProperty> Array<TProperty>(this DataGenerator<TProperty> property, int count = 10) where TProperty : class, IEnumerable
+        public static IDataGenerator<TProperty> Array<TProperty>(this DataGenerator<TProperty> property, int count) where TProperty : class, IEnumerable
         {
             return new PrimitiveArrayGenerator<TProperty>(count);
         }
@@ -533,7 +550,7 @@ namespace Mocking.DataGenerator
             return new ArrayGenerator<TProperty, TElementType>(mocker, count: 10);
         }
 
-        public static IDataGenerator<TProperty> Array<TProperty, TElementType>(this DataGenerator<TProperty> property, MockDataGenerator<TElementType> mocker, int count = 10) where TProperty : class, IEnumerable
+        public static IDataGenerator<TProperty> Array<TProperty, TElementType>(this DataGenerator<TProperty> property, MockDataGenerator<TElementType> mocker, int count) where TProperty : class, IEnumerable
         {
             return new ArrayGenerator<TProperty, TElementType>(mocker, count);
         }

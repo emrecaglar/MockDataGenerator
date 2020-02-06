@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Mocking.DataGenerator.Generators
 {
@@ -6,7 +7,7 @@ namespace Mocking.DataGenerator.Generators
     {
         private readonly Random _randomizer = new Random();
 
-        public bool Get()
+        public bool Get(CultureInfo culture)
         {
             return Convert.ToBoolean(_randomizer.Next(0, 2));
         }
@@ -14,9 +15,9 @@ namespace Mocking.DataGenerator.Generators
 
     public class NullableRandomBoolean : RandomBoolean, IDataGenerator<bool?>
     {
-        public new bool? Get()
+        public new bool? Get(CultureInfo culture)
         {
-            return base.Get();
+            return base.Get(culture);
         }
     }
 }

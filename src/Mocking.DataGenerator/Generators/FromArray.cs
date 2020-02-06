@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Mocking.DataGenerator.Generators
 {
@@ -11,7 +12,7 @@ namespace Mocking.DataGenerator.Generators
             _arr = arr;
         }
 
-        public T Get()
+        public T Get(CultureInfo culture)
         {
             return _arr[Randomizer.Next(0, _arr.Length)];
         }
@@ -26,7 +27,7 @@ namespace Mocking.DataGenerator.Generators
             _arr = arr;
         }
 
-        public T? Get()
+        public T? Get(CultureInfo culture)
         {
             return _arr[Randomizer.Next(0, _arr.Length)];
         }

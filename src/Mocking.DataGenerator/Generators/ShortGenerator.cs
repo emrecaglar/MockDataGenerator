@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Mocking.DataGenerator.Generators
@@ -15,7 +16,7 @@ namespace Mocking.DataGenerator.Generators
             _max = max;
         }
 
-        public short Get()
+        public short Get(CultureInfo culture)
         {
             return (short)Randomizer.Next(_min, _max);
         }
@@ -25,9 +26,9 @@ namespace Mocking.DataGenerator.Generators
     {
         public NullableShortGenerator(short min = short.MinValue, short max = short.MaxValue) : base(min, max) { }
 
-        public new short? Get()
+        public new short? Get(CultureInfo culture)
         {
-            return (short)base.Get();
+            return (short)base.Get(culture);
         }
     }
 }

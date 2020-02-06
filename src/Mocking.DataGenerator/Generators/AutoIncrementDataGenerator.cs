@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Mocking.DataGenerator.Generators
@@ -19,7 +20,7 @@ namespace Mocking.DataGenerator.Generators
             _current = _start;
         }
 
-        public int Get()
+        public int Get(CultureInfo culture)
         {
             int data = _current;
 
@@ -36,9 +37,9 @@ namespace Mocking.DataGenerator.Generators
             
         }
 
-        public new int? Get()
+        public new int? Get(CultureInfo culture)
         {
-            return base.Get();
+            return base.Get(culture);
         }
     }
 }

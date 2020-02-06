@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Mocking.DataGenerator
 {
     public abstract class RandomizerBase
     {
-        protected Random Randomizer { get; private set; } = new Random();
+        protected static Random Randomizer { get; private set; } = new Random();
     }
 
     //https://stackoverflow.com/questions/609501/generating-a-random-decimal-in-c-sharp

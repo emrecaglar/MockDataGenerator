@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Mocking.DataGenerator.Generators
 {
     public class DateTimeGenerator : RandomizerBase, IDataGenerator<DateTime>
     {
-        public DateTime Get()
+        public DateTime Get(CultureInfo culture)
         {
             return DateTime.Now.AddDays(Randomizer.Next(-1500, 1500)).AddSeconds(Randomizer.Next(-15000, 15000));
         }
@@ -12,9 +13,9 @@ namespace Mocking.DataGenerator.Generators
 
     public class NullableDateTimeGenerator : DateTimeGenerator, IDataGenerator<DateTime?>
     {
-        public new DateTime? Get()
+        public new DateTime? Get(CultureInfo culture)
         {
-            return base.Get();
+            return base.Get(culture);
         }
     }
 
@@ -27,12 +28,12 @@ namespace Mocking.DataGenerator.Generators
             _format = format;
         }
 
-        public string Get()
+        public string Get(CultureInfo culture)
         {
             var dateTime = DateTime.Now.AddDays(Randomizer.Next(-1500, 1500)).AddSeconds(Randomizer.Next(-15000, 15000));
 
             return _format == null
-                        ? dateTime.ToString()
+                        ? dateTime.ToString(culture)
                         : dateTime.ToString(_format);
         }
     }

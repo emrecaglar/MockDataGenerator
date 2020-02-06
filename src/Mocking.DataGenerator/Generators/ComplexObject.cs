@@ -1,4 +1,6 @@
-﻿namespace Mocking.DataGenerator.Generators
+﻿using System.Globalization;
+
+namespace Mocking.DataGenerator.Generators
 {
     public class ComplexObject<T> : RandomizerBase, IDataGenerator<T>
     {
@@ -9,9 +11,9 @@
             _data = data;
         }
 
-        public T Get()
+        public T Get(CultureInfo culture)
         {
-            return _data.Generate()[0];
+            return _data.GenerateOne();
         }
     }
 }

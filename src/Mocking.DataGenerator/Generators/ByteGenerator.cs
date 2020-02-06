@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Mocking.DataGenerator.Generators
@@ -15,19 +16,19 @@ namespace Mocking.DataGenerator.Generators
             _max = max;
         }
 
-        public byte Get()
+        public byte Get(CultureInfo culture)
         {
             return (byte)Randomizer.Next(_min, _max);
         }
     }
 
-    public class NullableByteGenerator : IntegerGenerator, IDataGenerator<byte?>
+    public class NullableByteGenerator : ByteGenerator, IDataGenerator<byte?>
     {
         public NullableByteGenerator(byte min = byte.MinValue, byte max = byte.MaxValue) : base(min, max) { }
 
-        public new byte? Get()
+        public new byte? Get(CultureInfo culture)
         {
-            return (byte)base.Get();
+            return base.Get(culture);
         }
     }
 }

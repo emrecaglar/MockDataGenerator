@@ -1,7 +1,9 @@
-﻿namespace Mocking.DataGenerator
+﻿using System.Globalization;
+
+namespace Mocking.DataGenerator
 {
     public interface IDataGenerator<out TProperty>
     {
-        TProperty Get();
+        TProperty Get(CultureInfo culture);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -14,7 +15,7 @@ namespace Mocking.DataGenerator.Generators
             _format = format;
         }
 
-        public string Get()
+        public string Get(CultureInfo culture)
         {
             string fmt = _format ?? "+#(###)###-##-##";
 

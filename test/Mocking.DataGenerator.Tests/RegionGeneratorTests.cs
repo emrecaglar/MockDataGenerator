@@ -1,6 +1,7 @@
 ﻿using Mocking.DataGenerator.Generators;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using Xunit;
 
@@ -13,7 +14,7 @@ namespace Mocking.DataGenerator.Tests
         {
             var regionGenerator = new RegionGenerator();
 
-            string region = regionGenerator.Get();
+            string region = regionGenerator.Get(new CultureInfo("en-US"));
 
             Assert.NotNull(region);
         }

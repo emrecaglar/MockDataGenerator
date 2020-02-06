@@ -1,26 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Mocking.DataGenerator.Generators
 {
-    //https://www.xe.com/symbols.php
     public class CurrencySymbolGenerator : RandomizerBase, IDataGenerator<string>
     {
-        private readonly string[] _symbols = new[] 
+        public string Get(CultureInfo culture)
         {
-            "₺",
-            "€",
-            "$",
-            "﷼",
-            "¥",
-            "£",
-            "RM",
-            "CHF"
-        };
-        public string Get()
-        {
-            return _symbols[Randomizer.Next(0, _symbols.Length)];
+            return new RegionInfo(culture.LCID).CurrencySymbol;
         }
     }
 }

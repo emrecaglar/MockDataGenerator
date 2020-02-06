@@ -1,4 +1,5 @@
 ﻿using Mocking.DataGenerator.Generators;
+using System.Globalization;
 using Xunit;
 
 namespace Mocking.DataGenerator.Tests
@@ -18,10 +19,10 @@ namespace Mocking.DataGenerator.Tests
 
             var enums = new[] { TestEnum.Bar, TestEnum.Car, TestEnum.Foo, TestEnum.Test };
 
-            TestEnum value1 = fromEnum.Get();
-            TestEnum value2 = fromEnum.Get();
-            TestEnum value3 = fromEnum.Get();
-            TestEnum value4 = fromEnum.Get();
+            TestEnum value1 = fromEnum.Get(new CultureInfo("en-US"));
+            TestEnum value2 = fromEnum.Get(new CultureInfo("en-US"));
+            TestEnum value3 = fromEnum.Get(new CultureInfo("en-US"));
+            TestEnum value4 = fromEnum.Get(new CultureInfo("en-US"));
 
             Assert.Contains(value1, enums);
             Assert.Contains(value2, enums);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Mocking.DataGenerator.Generators
 {
@@ -14,7 +15,7 @@ namespace Mocking.DataGenerator.Generators
             _max = max;
         }
 
-        public long Get()
+        public long Get(CultureInfo culture)
         {
             byte[] buf = new byte[8];
             Randomizer.NextBytes(buf);
@@ -29,9 +30,9 @@ namespace Mocking.DataGenerator.Generators
     {
         public NullableLongGenerator(long min = long.MinValue, long max = long.MaxValue) : base(min, max) { }
 
-        public new long? Get()
+        public new long? Get(CultureInfo culture)
         {
-            return base.Get();
+            return base.Get(culture);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -8,7 +9,7 @@ namespace Mocking.DataGenerator.Generators
     public class CreditCardGenerator : RandomizerBase, IDataGenerator<string>
     {
         //https://www.codementor.io/@etharalali/generating-test-credit-card-numbers-fast-773983p70
-        public string Get()
+        public string Get(CultureInfo culture)
         {
             int[] checkArray = new int[15];
 

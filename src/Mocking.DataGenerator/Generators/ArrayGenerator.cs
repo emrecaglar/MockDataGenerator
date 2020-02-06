@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Mocking.DataGenerator.Generators
@@ -13,11 +14,11 @@ namespace Mocking.DataGenerator.Generators
             _count = count;
         }
 
-        public TProperty Get()
+        public TProperty Get(CultureInfo culture)
         {
             var elementType = typeof(TProperty).GetElementType();
 
-            return PrimitiveEnumerableHelper.Generate<TProperty>(elementType, _count);
+            return PrimitiveEnumerableHelper.Generate<TProperty>(elementType, culture, _count);
         }
     }
 
@@ -32,7 +33,7 @@ namespace Mocking.DataGenerator.Generators
             _count = count;
         }
 
-        public TProperty Get()
+        public TProperty Get(CultureInfo culture)
         {
             return _mocker.Generate(_count).ToArray() as TProperty;
         }

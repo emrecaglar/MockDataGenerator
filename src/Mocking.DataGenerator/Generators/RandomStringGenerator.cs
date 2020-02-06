@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -28,7 +29,7 @@ namespace Mocking.DataGenerator.Generators
             _specialChars = specialChars;
         }
 
-        public string Get()
+        public string Get(CultureInfo culture)
         {
             var builder = new StringBuilder();
 

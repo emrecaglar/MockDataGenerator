@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Mocking.DataGenerator.Generators
 {
     public class GuidGenerator : RandomizerBase, IDataGenerator<Guid>
     {
-        public Guid Get()
+        public Guid Get(CultureInfo culture)
         {
             return Guid.NewGuid();
         }
@@ -12,17 +13,17 @@ namespace Mocking.DataGenerator.Generators
 
     public class NullableGuidGenerator : GuidGenerator, IDataGenerator<Guid?>
     {
-        public Guid? Get()
+        public Guid? Get(CultureInfo culture)
         {
-            return base.Get();
+            return base.Get(culture);
         }
     }
 
     public class StringGuidGenerator : GuidGenerator, IDataGenerator<string>
     {
-        public string Get()
+        public string Get(CultureInfo culture)
         {
-            return base.Get().ToString();
+            return base.Get(culture).ToString();
         }
     }
 }

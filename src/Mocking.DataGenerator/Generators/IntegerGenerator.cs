@@ -1,4 +1,6 @@
-﻿namespace Mocking.DataGenerator.Generators
+﻿using System.Globalization;
+
+namespace Mocking.DataGenerator.Generators
 {
     public class IntegerGenerator : RandomizerBase, IDataGenerator<int>
     {
@@ -11,7 +13,7 @@
             _max = max;
         }
 
-        public int Get()
+        public int Get(CultureInfo culture)
         {
             return Randomizer.Next(_min, _max);
         }
@@ -21,9 +23,9 @@
     {
         public NullableIntegerGenerator(int min = int.MinValue, int max = int.MaxValue):base(min, max) { }
 
-        public new int? Get()
+        public new int? Get(CultureInfo culture)
         {
-            return base.Get();
+            return base.Get(culture);
         }
     }
 }
