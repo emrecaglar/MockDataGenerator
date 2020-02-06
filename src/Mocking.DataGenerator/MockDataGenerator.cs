@@ -407,34 +407,14 @@ namespace Mocking.DataGenerator
         #endregion
 
         #region Money
-        public static IDataGenerator<decimal> Money(this DataGenerator<decimal> property)
+        public static IDataGenerator<decimal> Random(this DataGenerator<decimal> property)
         {
-            return new MoneyGenerator(decimal.MinValue, decimal.MaxValue);
+            return new DecimalGenerator();
         }
 
-        public static IDataGenerator<decimal> Money(this DataGenerator<decimal> property, decimal min)
+        public static IDataGenerator<decimal?> Random(this DataGenerator<decimal?> property)
         {
-            return new MoneyGenerator(min, decimal.MaxValue);
-        }
-
-        public static IDataGenerator<decimal> Money(this DataGenerator<decimal> property, decimal min, decimal max)
-        {
-            return new MoneyGenerator(min, max);
-        }
-
-        public static IDataGenerator<decimal?> Money(this DataGenerator<decimal?> property)
-        {
-            return new NullableMoneyGenerator(decimal.MinValue, decimal.MaxValue);
-        }
-
-        public static IDataGenerator<decimal?> Money(this DataGenerator<decimal?> property, decimal min)
-        {
-            return new NullableMoneyGenerator(min, decimal.MaxValue);
-        }
-
-        public static IDataGenerator<decimal?> Money(this DataGenerator<decimal?> property, decimal min, decimal max)
-        {
-            return new NullableMoneyGenerator(min, max);
+            return new NullableDecimalGenerator();
         }
         #endregion
 

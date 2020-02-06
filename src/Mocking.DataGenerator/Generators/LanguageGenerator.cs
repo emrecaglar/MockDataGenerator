@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Mocking.DataGenerator.Generators
@@ -18,8 +19,12 @@ namespace Mocking.DataGenerator.Generators
             "Venda", "Wolof", "Xhosa", "Guarani", "Bulgarian", "Finnish", "Norwegian", "Icelandic"
         };
 
+        private readonly CultureInfo[] _cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+
         public string Get()
         {
+            string lang = _cultures[Randomizer.Next(0, _cultures.Length)].ThreeLetterISOLanguageName;
+
             return languages[Randomizer.Next(0, languages.Length)];
         }
     }

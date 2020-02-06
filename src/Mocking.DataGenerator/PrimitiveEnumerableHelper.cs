@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Mocking.DataGenerator
@@ -31,9 +32,18 @@ namespace Mocking.DataGenerator
 
             var list = castMethod.Invoke(null, new object[] { items });
 
-            var toListMethod = typeof(Enumerable).GetMethod(nameof(Enumerable.ToList)).MakeGenericMethod(elementType);
+            MethodInfo invoker = null;
 
-            return (T)toListMethod.Invoke(null, new object[] { list });
+            if (typeof(T).IsArray)
+            {
+                invoker = typeof(Enumerable).GetMethod(nameof(Enumerable.ToArray)).MakeGenericMethod(elementType);
+            }
+            else
+            {
+                invoker = typeof(Enumerable).GetMethod(nameof(Enumerable.ToList)).MakeGenericMethod(elementType);
+            }
+
+            return (T)invoker.Invoke(null, new object[] { list });
         }
 
         private static Dictionary<Type, object> PrimitiveDataGeneratorMap = new Dictionary<Type, object>
@@ -49,9 +59,9 @@ namespace Mocking.DataGenerator
             { typeof(DateTime), new DateTimeGenerator() },
             { typeof(Guid), new GuidGenerator() },
             { typeof(string), new RandomStringGenerator() },
-            { typeof(decimal), new MoneyGenerator(decimal.MinValue, decimal.MaxValue) },
-            { typeof(double), new MoneyGenerator(decimal.MinValue, decimal.MaxValue) },
-            { typeof(float), new MoneyGenerator(decimal.MinValue, decimal.MaxValue) }
+            { typeof(decimal), new DecimalGenerator() },
+            { typeof(double), new DecimalGenerator() },
+            { typeof(float), new DecimalGenerator() }
         };
 
         private static List<T> Repeat<T>(Func<T> executer, int count)

@@ -14,14 +14,14 @@ namespace Mocking.DataGenerator.Tests
             var productGenerator = new MockDataGenerator<Product>()
                 .Register(x => x.Name, x => x.Name())
                 .Register(x => x.Explanation, x => x.LoremIpsum())
-                .Register(x => x.Category, x=>x.Object(
+                .Register(x => x.Category, x => x.Object(
                     new MockDataGenerator<Category>()
-                        .Register(cat=>cat.Id, cat=>cat.AutoIncrement())
-                        .Register(cat=>cat.Name, cat => cat.Random())
+                        .Register(cat => cat.Id, cat => cat.AutoIncrement())
+                        .Register(cat => cat.Name, cat => cat.Random())
                  ))
                 .Register(x => x.CategoryId, model => model.Category.Id)
                 .Register(x => x.Comments, x => x.List())
-                .Register(x => x.Price, x => x.Money())
+                .Register(x => x.Price, x => x.Random())
                 .Register(x => x.Unit, x => x.Random(5, 15))
                 .Register(x => x.Amount, (model) => model.Price * model.Unit)
                 .Register(x => x.Id, x => x.Guid())
