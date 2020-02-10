@@ -49,6 +49,8 @@ namespace Mocking.DataGenerator.Tests
 
 
             var data = productGenerator.Generate(5);
+
+            Assert.Equal(5, data.Count);
         }
     }
 
