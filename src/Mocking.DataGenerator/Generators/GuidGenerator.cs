@@ -13,7 +13,7 @@ namespace Mocking.DataGenerator.Generators
 
     public class NullableGuidGenerator : GuidGenerator, IDataGenerator<Guid?>
     {
-        public Guid? Get(CultureInfo culture)
+        public new Guid? Get(CultureInfo culture)
         {
             return base.Get(culture);
         }
@@ -21,7 +21,7 @@ namespace Mocking.DataGenerator.Generators
 
     public class StringGuidGenerator : GuidGenerator, IDataGenerator<string>
     {
-        public string Get(CultureInfo culture)
+        public new string Get(CultureInfo culture)
         {
             return base.Get(culture).ToString();
         }

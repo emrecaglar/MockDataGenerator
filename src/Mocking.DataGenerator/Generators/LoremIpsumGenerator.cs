@@ -22,7 +22,7 @@ namespace Mocking.DataGenerator.Generators
 
         public string Get(CultureInfo culture)
         {
-            List<string> sentence = ORIGINAL.Split(".").ToList();
+            List<string> sentence = ORIGINAL.Split(new char[] { '.' }).ToList();
 
             var builder = new StringBuilder();
 
@@ -33,7 +33,7 @@ namespace Mocking.DataGenerator.Generators
             else if (_sentenceCount > sentence.Count)
             {
                 int subtract = _sentenceCount - sentence.Count;
-                var originalSentences = ORIGINAL.Split(".");
+                var originalSentences = ORIGINAL.Split(new char[] { '.' });
 
                 for (int i = 0; i < subtract; i++)
                 {

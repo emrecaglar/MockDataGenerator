@@ -22,12 +22,5 @@ namespace Mocking.DataGenerator.Tests
 
             string symbol = generator.Get(turkishCulture);
         }
-
-        public void LanguageGenerator()
-        {
-            var generator = new LanguageGenerator();
-
-            string lang = generator.Get(new CultureInfo("en-US"));
-        }
     }
 }
